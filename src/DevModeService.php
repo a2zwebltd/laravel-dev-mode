@@ -15,7 +15,7 @@ use InvalidArgumentException;
 readonly class DevModeService
 {
     public function __construct(
-        #[Config('app.debug_mode_ttl')]
+        #[Config('dev-mode.ttl')]
         public int $ttl
     ) {}
 

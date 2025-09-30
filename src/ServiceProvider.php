@@ -18,10 +18,9 @@ class ServiceProvider extends BaseServiceProvider
 
     public function boot(): void
     {
-        $this->publishes([
-            __DIR__.'/../config/dev-mode.php' => config_path('dev-mode.php'),
-        ]);
-
+        $this->publishes([__DIR__.'/../config/dev-mode.php' => config_path('dev-mode.php')]);
+        $this->publishesMigrations([__DIR__.'/../database/migrations' => database_path('migrations')]);
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->setupCommands();
         $this->setupGateInterception();
     }

@@ -10,6 +10,26 @@ This package allows developers to temporarily bypass Laravel's authorization sys
 ## Requirements
 - The `User` model must have an `is_developer` property (boolean)
 
+## Installation
+
+Install the package via Composer:
+
+```bash
+composer require a2zwebltd/dev-mode
+```
+
+Publish the migrations and config files:
+
+```bash
+php artisan vendor:publish --provider="A2ZWeb\DevMode\ServiceProvider"
+```
+
+Run the migrations:
+
+```bash
+php artisan migrate
+```
+
 ## Usage
 
 ### Enable Dev Mode
@@ -23,6 +43,16 @@ php artisan dev-mode:enable --user={USER_ID} --ip={IP_OF_USER}
 
 
 This will grant the specified user full access for the default duration (10 minutes).
+
+
+#### Enable Dev Mode Programmatically
+You can also enable dev mode directly in your code:
+
+```php
+$devMode = app(\A2ZWeb\DevMode\DevModeService::class);
+
+$devMode->enable($user, $ip);
+```
 
 #### Adjusting Access Duration
 You can change the duration of developer access by setting the `DEV_MODE_TTL` environment variable in your `.env` file. The value must be in seconds.
@@ -40,6 +70,15 @@ To revoke access before the duration ends, run:
 
 ```bash
 php artisan dev-mode:disable --user={USER_ID}
+```
+
+#### Disable Dev Mode Programmatically
+You can also enable dev mode directly in your code:
+
+```php
+$devMode = app(\A2ZWeb\DevMode\DevModeService::class);
+
+$devMode->disable($user);
 ```
 
 ## Security
