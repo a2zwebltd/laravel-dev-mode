@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "a2zwebltd/dev-mode",
+    "name": "a2zwebltd/laravel-dev-mode",
     "type": "library",
     "license": "proprietary",
     "require": {

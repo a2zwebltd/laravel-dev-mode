@@ -15,7 +15,7 @@ This package allows developers to temporarily bypass Laravel's authorization sys
 Install the package via Composer:
 
 ```bash
-composer require a2zwebltd/dev-mode
+composer require a2zwebltd/laravel-dev-mode
 ```
 
 Publish the migrations and config files:
