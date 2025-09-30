@@ -1,0 +1,32 @@
+name: Tests
+
+on:
+  push:
+
+jobs:
+
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Cache Composer packages
+      uses: actions/cache@v4
+      with:
+        path: ./vendor
+        key: composer-${{ hashFiles('composer.lock') }}
+
+    - name: Install Composer dependencies
+      run: composer install --no-progress --prefer-dist  --no-scripts --no-autoloader --no-interaction
+
+    - name: Cache Pint
+      uses: actions/cache@v4
+      with:
+        path: ./pint-cache
+        key: pint-cache
+
+    - name: Check code style with Laravel Pint
+      run: ./vendor/bin/pint --cache-file=pint-cache --test
+      continue-on-error: false
