@@ -7,9 +7,6 @@ This package allows developers to temporarily bypass Laravel's authorization sys
 - Automatic revocation of access after a set time
 - Manual enable/disable commands
 
-## Requirements
-- The `User` model must have an `is_developer` property (boolean)
-
 ## Installation
 
 Install the package via Composer:
@@ -33,7 +30,6 @@ php artisan migrate
 ## Usage
 
 ### Enable Dev Mode
-Only users with `is_developer=true` can be enabled for dev mode.
 
 Run the following command to enable dev mode for a developer:
 
@@ -82,5 +78,4 @@ $devMode->disable($user);
 ```
 
 ## Security
-- Only users with `is_developer=true` can be enabled for dev mode.
 - Access is limited to the specified IP address.
