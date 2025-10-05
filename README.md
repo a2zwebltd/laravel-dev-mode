@@ -108,6 +108,33 @@ if ($devMode->isEnabled($user, request()->ip())) {
 $devMode->disable($user);
 ```
 
+Here’s a clean documentation section you can add under **Usage** or after **Programmatic usage** in your README.md:
+
+---
+
+### Conditional developer tools access
+
+You can use the `DevModeService` check to conditionally enable developer tools such as **Laravel Debugbar**, **Telescope**, or any custom admin utilities for selected developers only.
+
+Example:
+
+```php
+use A2ZWeb\DevMode\DevModeService;
+
+$devMode = app(DevModeService::class);
+
+if ($devMode->isEnabled(auth()->user(), request()->ip())) {
+    // Show or enable developer-only tools
+    \Debugbar::enable();
+} else {
+    \Debugbar::disable();
+}
+```
+
+This lets you keep production safe while still giving specific developers full diagnostic visibility.
+You can apply the same logic to any tool or section of your app that should remain hidden for normal users.
+
+
 ---
 ## Security Vulnerabilities
 
