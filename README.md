@@ -143,7 +143,7 @@ If you discover a security vulnerability, please report it responsibly through p
 ---
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
 
 ## Credits
 
