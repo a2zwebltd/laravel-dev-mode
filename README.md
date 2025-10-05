@@ -1,81 +1,129 @@
-# Laravel Dev Mode Package
+# Laravel Dev Mode
 
-This package allows developers to temporarily bypass Laravel's authorization system (Gates) and gain full access for testing purposes. After a specified duration (default: 10 minutes), access is automatically revoked.
+A lightweight Laravel package to temporarily disable Gate authorization for trusted developers.
+
+[![Packagist Version](https://img.shields.io/packagist/v/a2zwebltd/laravel-dev-mode.svg)](https://packagist.org/packages/a2zwebltd/laravel-dev-mode)
+[![Downloads](https://img.shields.io/packagist/dt/a2zwebltd/laravel-dev-mode.svg)](https://packagist.org/packages/a2zwebltd/laravel-dev-mode)
+![PHP](https://img.shields.io/badge/PHP-%5E8.3-blue)
+![Laravel](https://img.shields.io/badge/Laravel-%5E12.0-blue)
+
+This package lets developers temporarily bypass Laravel’s authorization system (Gates) to gain full access for testing or debugging. Access is automatically revoked after a configurable duration (default: 10 minutes). Security is enforced by limiting activation to a specific IP address and user combination.
+
+It is designed for development environments. If you choose to enable it in production, be aware of the security implications. Activation still requires server access, so only privileged users can enable or disable Dev Mode.
 
 ## Features
-- Temporarily bypass Laravel Gates for selected developers
-- Automatic revocation of access after a set time
-- Manual enable/disable commands
+
+* Temporarily bypasses Laravel Gates for a specific user and IP.
+* Grants all abilities via a `Gate::before` hook integrated with Laravel’s authorization system.
+* Access is time-limited through cache TTL (default: 600 seconds).
+* Includes simple Artisan commands and a service API for programmatic control.
+* Automatically revokes access after expiration.
+* Provides IP-based restriction for additional security.
+* Ships with an auto-discovered service provider and configurable TTL.
+* Intended for development use; can be used in production with caution and proper access control.
+
+## How it works
+
+The package registers a `Gate::before` callback through its service provider.  
+When Dev Mode is active, the callback grants all abilities to the specified user if the request originates from the whitelisted IP.  
+Dev Mode status is stored in Laravel’s cache using keys like `dev-mode:{user_id}`, with automatic expiration after the configured TTL.
+
+---
+
+## Requirements
+
+* PHP: ^8.3
+* Laravel: ^12.0
+
+---
 
 ## Installation
 
-Install the package via Composer:
+Install via Composer:
 
 ```bash
 composer require a2zwebltd/laravel-dev-mode
 ```
 
-Publish the migrations and config files:
+Publish the config:
 
 ```bash
 php artisan vendor:publish --provider="A2ZWeb\DevMode\ServiceProvider"
 ```
 
-Run the migrations:
+---
 
-```bash
-php artisan migrate
+## Configuration
+
+- **Config file:** `config/dev-mode.php` (publishable)
+- **Environment variable:** `DEV_MODE_TTL` (defaults to 600 seconds)
+- **Service Provider:** `A2ZWeb\DevMode\ServiceProvider` (auto-discovered)
+- **Cache key format:** `dev-mode:{user_id}`
+- **Storage driver:** uses Laravel’s default cache backend
+
+Example `.env`:
+```env
+DEV_MODE_TTL=600
 ```
+
+---
 
 ## Usage
 
+Dev Mode temporarily disables authorization checks for the defined user,
+but only when requests come from the registered IP and while TTL is valid.
+
 ### Enable Dev Mode
 
-Run the following command to enable dev mode for a developer:
+```bash
+php artisan dev-mode:enable --user=123 --ip=192.168.1.1
+```
+
+This command grants full access for the given user and IP combination for the configured TTL (default: 10 minutes).
+
+### Disable Dev Mode
 
 ```bash
-php artisan dev-mode:enable --user={USER_ID} --ip={IP_OF_USER}
+php artisan dev-mode:disable --user=123
 ```
 
+*Tip:* You can include this command as a task inside the `deployer` script.
 
-This will grant the specified user full access for the default duration (10 minutes).
-
-
-#### Enable Dev Mode Programmatically
-You can also enable dev mode directly in your code:
+### Programmatic usage
 
 ```php
-$devMode = app(\A2ZWeb\DevMode\DevModeService::class);
+use A2ZWeb\DevMode\DevModeService;
 
-$devMode->enable($user, $ip);
-```
+$devMode = app(DevModeService::class);
 
-#### Adjusting Access Duration
-You can change the duration of developer access by setting the `DEV_MODE_TTL` environment variable in your `.env` file. The value must be in seconds.
+// Enable for user and IP
+$devMode->enable($user, '192.168.1.1');
 
-Example:
-```env
-DEV_MODE_TTL=600 # 10 minutes
-```
+// Check status
+if ($devMode->isEnabled($user, request()->ip())) {
+    // All abilities granted via Gate::before
+}
 
-### Automatic Revocation
-After the duration expires, access is revoked automatically.
-
-### Manual Revocation
-To revoke access before the duration ends, run:
-
-```bash
-php artisan dev-mode:disable --user={USER_ID}
-```
-
-#### Disable Dev Mode Programmatically
-You can also enable dev mode directly in your code:
-
-```php
-$devMode = app(\A2ZWeb\DevMode\DevModeService::class);
-
+// Disable
 $devMode->disable($user);
 ```
 
-## Security
-- Access is limited to the specified IP address.
+---
+## Security Vulnerabilities
+
+If you discover a security vulnerability, please report it responsibly through private communication with the maintainers.
+
+---
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+## Credits
+
+Developed and maintained by the **A2Z WEB** crew:
+* [Amir Yeganemehr](https://github.com/yeganemehr)
+* [Dawid Makowski](https://github.com/makowskid)
+* Website: [https://a2zweb.co/](https://a2zweb.co/)
+* GitHub: [https://github.com/a2zwebltd/](https://github.com/a2zwebltd/)
+* X/Twitter: [@a2zweb_co](https://twitter.com/a2zweb_co)
+

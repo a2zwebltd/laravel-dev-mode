@@ -1,26 +1,71 @@
 {
-    "$schema": "https://getcomposer.org/schema.json",
-    "name": "a2zwebltd/laravel-dev-mode",
-    "type": "library",
-    "license": "proprietary",
-    "require": {
-        "php": "^8.3",
-        "laravel/framework": "^12.0"
+  "$schema": "https://getcomposer.org/schema.json",
+  "name": "a2zwebltd/laravel-dev-mode",
+  "description": "A lightweight Laravel package that lets developers temporarily bypass Gate authorization for testing and debugging with time-limited, IP-restricted access.",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "laravel",
+    "authorization",
+    "gates",
+    "dev mode",
+    "bypass",
+    "testing",
+    "development"
+  ],
+  "homepage": "https://github.com/a2zwebltd/laravel-dev-mode",
+  "support": {
+    "issues": "https://github.com/a2zwebltd/laravel-dev-mode/issues",
+    "source": "https://github.com/a2zwebltd/laravel-dev-mode"
+  },
+  "authors": [
+    {
+      "name": "A2Z WEB",
+      "homepage": "https://a2zweb.co/"
     },
-    "autoload": {
-        "psr-4": {
-            "A2ZWeb\\DevMode\\": "src/"
-        }
+    {
+      "name": "Dawid Makowski",
+      "role": "Maintainer",
+      "homepage": "https://github.com/makowskid"
     },
-    "require-dev": {
-        "orchestra/testbench": "^10.6",
-        "laravel/pint": "^1.25"
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "A2ZWeb\\DevMode\\ServiceProvider"
-            ]
-        }
+    {
+      "name": "Amir Yeganemehr",
+      "role": "Contributor",
+      "homepage": "https://github.com/yeganemehr"
     }
+  ],
+  "require": {
+    "php": "^8.3",
+    "laravel/framework": "^12.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^10.6",
+    "laravel/pint": "^1.25"
+  },
+  "autoload": {
+    "psr-4": {
+      "A2ZWeb\\DevMode\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "A2ZWeb\\DevMode\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "A2ZWeb\\DevMode\\ServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "lint": "vendor/bin/pint"
+  },
+  "config": {
+    "sort-packages": true
+  }
 }
