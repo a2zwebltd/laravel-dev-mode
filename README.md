@@ -4,8 +4,8 @@ A lightweight Laravel package to temporarily disable Gate authorization for trus
 
 [![Packagist Version](https://img.shields.io/packagist/v/a2zwebltd/laravel-dev-mode.svg)](https://packagist.org/packages/a2zwebltd/laravel-dev-mode)
 [![Downloads](https://img.shields.io/packagist/dt/a2zwebltd/laravel-dev-mode.svg)](https://packagist.org/packages/a2zwebltd/laravel-dev-mode)
-![PHP](https://img.shields.io/badge/PHP-%5E8.3-blue)
-![Laravel](https://img.shields.io/badge/Laravel-%5E12.0-blue)
+![PHP](https://img.shields.io/badge/PHP-%5E8.2-blue)
+![Laravel](https://img.shields.io/badge/Laravel-12%20%7C%2013-blue)
 
 This package lets developers temporarily bypass Laravel’s authorization system (Gates) to gain full access for testing or debugging. Access is automatically revoked after a configurable duration (default: 10 minutes). Security is enforced by limiting activation to a specific IP address and user combination.
 
@@ -32,8 +32,8 @@ Dev Mode status is stored in Laravel’s cache using keys like `dev-mode:{user_i
 
 ## Requirements
 
-* PHP: ^8.3
-* Laravel: ^12.0
+* PHP: ^8.2
+* Laravel: 12 or 13
 
 ---
 
